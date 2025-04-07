@@ -1,0 +1,27 @@
+name: Execute Minimum Finder Tests
+
+on: [push]
+
+jobs:
+  test-lowest-number:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Retrieve Repository Code
+      uses: actions/checkout@v3
+
+    - name: Configure Python Environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Execute Test Cases
+      run: |
+        mkdir output
+
+        for i in 1 2 3
+        do
+          echo "Processing test case $i..."
+          python find_lowest_number.py test_data/test${i}_input.txt output/test${i}_output.txt
+          diff output/test${i}_output.txt test_data/test${i}_expected.txt
+        done
